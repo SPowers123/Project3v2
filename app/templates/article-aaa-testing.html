@@ -8,72 +8,88 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="mt-5">
-        <h1>AAA Testing with Python</h1>
-        <p>The AAA of “AAA Testing” stands for Arrange-Act-Assert, a pattern of testing that has become a de-facto
-            standard in the software development industry.</p>
-        <br>
-
-        <h3>Importance of Testing</h3>
-        <p>Unit testing helps identify issues with software as changes are implemented, and ensures that all code meets
-            quality standards before it's deployed. Over the course of the product development life cycle, unit testing
-            saves time and money, and helps developers write better code with greater efficiency. A huge benefit of unit
-            tests is that each test isolates a function, class or method and only tests that piece of code, meaning that
-            when there is an issue it’s much easier to track down and fix.</p>
-        <br>
-
-        <h3>Using the AAA Pattern</h3>
-        <p>The AAA testing pattern suggests that a test method should be divided into three sections: arrange, act, and
-            assert, with each being responsible only for the part it is named after.</p>
-        <p>The <b>Arrange</b> part of the pattern is for setting up the test case. That is, handling any input data,
-            configuration, preparing a database, etc.</p>
-        <p>The <b>Act</b> part of the pattern covers the actual testing. This could mean calling a function/method,
-            calling a REST API, interacting with a web page, etc.</p>
-        <p>Finally, the <b>Assert</b> part of the pattern deals with comparing an expected outcome to the results of the
-            Act steps. In other words, assertions check whether the test passed or failed.</p>
-        <p>Of course, the AAA pattern is just one way of structuring testing, and shouldn’t be treated as gospel.
-            Following the pattern is not a requirement, but it is a great way to structure test cases to make them easy
-            to write and easy to understand. Here is an example of the AAA pattern in action in the unit tests for our
-            Calculator project:</p>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">test_calculator_add_static</span>(clear_history_fixture):  <span style="color: #888888"># pylint: disable=unused-argument,redefined-outer-name</span>
-    <span style="color: #DD4422">&quot;&quot;&quot; Testing that the calculator has a static method for addition &quot;&quot;&quot;</span>
-    values <span style="color: #333333">=</span> (<span style="color: #6600EE; font-weight: bold">1.0</span>, <span style="color: #6600EE; font-weight: bold">2.0</span>, <span style="color: #6600EE; font-weight: bold">5.0</span>)  <span style="color: #888888"># Arrange</span>
-    Calculator<span style="color: #333333">.</span>add_numbers(values)  <span style="color: #888888"># Act</span>
-    <span style="color: #008800; font-weight: bold">assert</span> Calculator<span style="color: #333333">.</span>get_last_result_value() <span style="color: #333333">==</span> <span style="color: #6600EE; font-weight: bold">8.0</span>  <span style="color: #888888"># Assert</span>
-</pre></div>
-        <br>
-
-        <h3>Using external data for Python testing</h3>
-        <p>The above example uses hard-coded input values which technically works, but is not always the most optimal or
-            comprehensive way of testing. Instead, we can read input data from an external data file, where the benefit
-            is that we can easily modify the input data without having to touch any code.</p>
-        <p>When it comes to Python, we can use the <a href="https://pandas.pydata.org/">pandas</a> library to read input
-            values from a csv (comma separated values) file and loop through them for our tests. Here is what one such
-            csv file might look like for our Calculator project tests:</p>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">value a,value b,answer
-<span style="color: #666666">8326</span>,<span style="color: #666666">1643</span>,<span style="color: #666666">9969</span>
-<span style="color: #666666">2066</span>,<span style="color: #666666">4942</span>,<span style="color: #666666">7008</span>
-<span style="color: #666666">7794</span>,<span style="color: #666666">127</span>,<span style="color: #666666">7921</span>
-<span style="color: #666666">3808</span>,<span style="color: #666666">789</span>,<span style="color: #666666">4597</span>
-<span style="color: #666666">6285</span>,<span style="color: #666666">7036</span>,<span style="color: #666666">13321</span>
-</pre></div>
-        <p class="fst-italic">addition_test_values.csv</p>
-        <p>And here is what the Python code would look like for a test of the Addition operation that uses that csv
-            file:</p>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">pandas</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">pd</span>
-data_path <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;../tests_data/addition_test_values.csv&quot;</span>
-
-<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">test_addition_from_csv</span>():
-    dataframe <span style="color: #333333">=</span> pd<span style="color: #333333">.</span>read_csv(data_path)
-    <span style="color: #008800; font-weight: bold">for</span> index, row <span style="color: #000000; font-weight: bold">in</span> dataframe<span style="color: #333333">.</span>iterrows():
-        addition <span style="color: #333333">=</span> Addition<span style="color: #333333">.</span>create((row[<span style="background-color: #fff0f0">&#39;value a&#39;</span>], row[<span style="background-color: #fff0f0">&#39;value b&#39;</span>]))
-        result <span style="color: #333333">=</span> addition<span style="color: #333333">.</span>get_result()
-        <span style="color: #008800; font-weight: bold">assert</span> result <span style="color: #333333">==</span> <span style="color: #007020">float</span>(row[<span style="background-color: #fff0f0">&#39;answer&#39;</span>])
-</pre></div>
-        <br>
-        <br>
-        <a href="">GitHub Project for Reference</a>
-        <br><br>
+    <div class="row justify-content-between">
+        <div class="col">
+            <div class="mt-5">
+                <h1>Calculator Tutorial: AAA Testing</h1>
+            </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-3 content-col rounded mt-2">
+            <p class="lead">Content<br>
+                <a href="#overview">AAA Testing Overview</a><br>
+                <a href="#testingimportance">Why do AAA testing</a>
+                <a href="#extrernaluse">Using AAA testing externally</a>
+            </p>   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 id="overview">What is AAA testing and how is it done?</h1>
+            <p class="lead">  Triple A testing stands for Arrange, Act, and Assert.  The basis of this is to mirror the line of thinking to plan or prepare , enact that plan or action,
+            and then test to see if the plan worked well. Doing this in python covers a couple of steps. The first and most important thing is to create a whole separate file to test another file.
+            This file should then import both the unittest class and any methods from classes the test script should check over. For example, if you’re testing the statistics portion of a calculator
+            then you need to make a call to your class that covers random numbers and the method that creates said numbers. This would look like <kbd>from calcrandom.random import randint</kbd>. Once the file is ready,
+            the test class can be created. This class should input the unittest method TestCase. Now, you are ready to begin AAA testing. The first step is to “Arrange” and set up the variables/lists for the test.
+            In this case, a setup function called setUp that can set up a seed, create some random integers, and creates an instance of Statistics(). Then the ACT portion can happen. While using “result” is often required,
+            in this example using a class method that acts in the place of “result = self.statistics” like <kbd>self.assertIsInstance()</kbd> works too. Finally the Assert portion rounds out the test.
+            Using the assert tag should happen here in the case of assert result is none. However, a class method can help once again by using mean = self.statistics.mean(self.testData) and self.assertEqual(mean, 4.25) which all happen in its own function.
+            the code example of this would like like this in your ide:
+
+</p>
+
+   <code class="text-black">function examples</code>
+        <code>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">version: <span style="background-color: #fff0f0">&quot;3.2&quot;</span>
+            mean = self.statistics.mean(self.testData)
+            self.assertEqual(mean, 4.25)
+            
+</pre></div>
+        </code>
+
+
+
+    
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 id="testingimportance">Why is AAA Testing Important?</h1>
+            <p class="lead"> 
+            
+            So now that you know the process of AAA testing both generally and in the context of the calculator, why is it important? Well most acclipably is that it increases efficiency tenfold.
+            From the outset, creating tests first limits scope creep and keeps the process focused on the customers needs. This lets developers focus on the end goal without any tedious wavering
+            or last minute additions. On the maintenance side of things, efficiency is also increased. Having an automated and well implemented testing script allows for a program and team to scale
+            with little to no extra time added to quality assurance. As increasing the size of a program can add weeks to even months to manually test, it's quite beneficial to leave as little
+            as possible to human error and patience. The rapid response AAA testing enables also lets problems be addressed and fixed before the users even realize. 
+
+
+            
+            </p>
+            
+        </div>
+    </div>
+    
+     <div class="row">
+        <div class="col">
+            <h1 id="externaluse">How To Use External Data For Testing</h1>
+            <p class="lead"> 
+            
+            There are a couple of ways to implement external data into a unit test. While these can be broadly applied, there are specific techniques that align with specific data types.
+            The general way to call external data to a test script is by using the line of code <kbd>THIS_DIR = os.path.dirname(os.path.abspath(__file__))</kbd> at the top of your testing script.
+            Then inside your test or test set up you can use the function <kbd>my_data_path = os.path.join(THIS_DIR, os.pardir, 'data_folder/data.csv')</kbd> or more directly
+            <kbd>my_data_path = os.path.join(THIS_DIR, 'testdata.csv')</kbd>. For those curious on how it would look in context of the calculator, the line of code would look like <kbd>self.csv_reader = CsvReader('Tests/Data/birthday.csv')</kbd>. 
+
+
+            
+            </p>
+            
+        </div>
+    </div>
+    
+    
+    
 </div>
+
 {% endblock %}

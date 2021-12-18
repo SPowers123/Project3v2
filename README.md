@@ -8,5 +8,5 @@ _.coveragerc is the config for coverage_<br>
 _setup.py is a config file for pytest_
 
 
-Docker Hub: [seanpow123/project2webpagev2](https://hub.docker.com/repository/docker/seanpow123/project2webpagev2/general) <br>
-Live site: [seanpowersproject2v2.eastus.azurecontainer.io](http://seanpowersproject2v2.eastus.azurecontainer.io/)
+https://mediaspace.njit.edu/media/Final%20calculator%20Project/1_dks5qfcs
+
